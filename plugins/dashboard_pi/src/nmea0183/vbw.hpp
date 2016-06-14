@@ -20,7 +20,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.             *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.         *
  ***************************************************************************
  *
  *   S Blackburn's original source license:                                *
@@ -29,34 +29,28 @@
  *         "It is BSD license, do with it what you will"                   *
  */
 
-#if ! defined( DPT_CLASS_HEADER )
-#define DPT_CLASS_HEADER
+#if ! defined( VBW_CLASS_HEADER )
+#define VBW_CLASS_HEADER
 
-/*
-** Author: Samuel R. Blackburn
-** CI$: 76300,326
-** Internet: sammy@sed.csc.com
-**
-** You can use it any way you like.
-*/
 
-class DPT : public RESPONSE
+class VBW : public RESPONSE
 {
-   //DECLARE_DYNAMIC( DPT )
+   //DECLARE_DYNAMIC( VBW )
 
    public:
 
-      DPT();
-     ~DPT();
+      VBW();
+     ~VBW();
 
       /*
       ** Data
       */
 
-      double DepthMeters;
-      double OffsetFromTransducerMeters;
-      double RangeMeters;
-
+      double LongitudinalWaterSpeed;
+      double TransverseWaterSpeed;
+      double LongitudinalGroundSpeed;
+      double TransverseGroundSpeed;
+      
       /*
       ** Methods
       */
@@ -69,7 +63,7 @@ class DPT : public RESPONSE
       ** Operators
       */
 
-      virtual const DPT& operator = ( const DPT& source );
+      virtual const VBW& operator = ( const VBW& source );
 };
 
-#endif // DPT_CLASS_HEADER
+#endif // VBW_CLASS_HEADER

@@ -933,7 +933,16 @@ void dashboard_pi::SetNMEASentence( wxString &sentence )
                 }
             }
         }
-
+        
+        else if( m_NMEA0183.LastSentenceIDReceived == _T("VBW") ) {
+            if( m_NMEA0183.Parse() ) {
+                if( m_NMEA0183.Vbw.LongitudinalWaterSpeed < 999. ) {
+                    SendSentenceToAllInstruments( OCPN_DBP_STC_STW, toUsrSpeed_Plugin( m_NMEA0183.Vbw.LongitudinalWaterSpeed, g_iDashSpeedUnit ),
+                            getUsrSpeedUnit_Plugin( g_iDashSpeedUnit ) );
+                }
+            }
+        }
+        
         else if( m_NMEA0183.LastSentenceIDReceived == _T("VHW") ) {
             if( m_NMEA0183.Parse() ) {
                 if( mPriHeadingT >= 2 ) {

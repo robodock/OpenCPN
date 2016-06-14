@@ -157,6 +157,8 @@ SET(SRC_NMEA0183
     src/nmea0183/mtw.hpp
     src/nmea0183/mwv.cpp
     src/nmea0183/mwv.hpp
+    src/nmea0183/vbw.hpp
+    src/nmea0183/vbw.cpp
     src/nmea0183/vhw.hpp
     src/nmea0183/vhw.cpp
     src/nmea0183/vwr.cpp

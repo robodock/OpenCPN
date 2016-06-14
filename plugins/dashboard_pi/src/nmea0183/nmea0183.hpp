@@ -107,6 +107,7 @@
 #include "mda.hpp" //barometric pressure
 #include "mwd.hpp"
 #include "mwv.hpp"
+#include "vbw.hpp" //dual water/ground speed
 #include "vhw.hpp"
 #include "vwr.hpp"
 #include "vwt.hpp"
@@ -227,9 +228,9 @@ class NMEA0183
       STN Stn;
       TRF Trf;
       TTM Ttm;
-      VBW Vbw;
       VDR Vdr;
 */
+      VBW Vbw; //dual water/ground speed
       VHW Vhw;
 	  VLW Vlw;
 /*

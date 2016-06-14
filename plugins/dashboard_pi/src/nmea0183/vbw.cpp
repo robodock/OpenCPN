@@ -20,7 +20,7 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.             *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.         *
  ***************************************************************************
  *
  *   S Blackburn's original source license:                                *
@@ -36,83 +36,75 @@
 ** CI$: 76300,326
 ** Internet: sammy@sed.csc.com
 **
+** VBW support added by eddie@robodock.net
+**
 ** You can use it any way you like.
 */
 
-//IMPLEMENT_DYNAMIC( DPT, RESPONSE )
+//IMPLEMENT_DYNAMIC( VBW, RESPONSE )
 
-DPT::DPT()
+VBW::VBW()
 {
-   Mnemonic = _T("DPT");
+   Mnemonic = _T("VBW");
    Empty();
 }
 
-DPT::~DPT()
+VBW::~VBW()
 {
    Mnemonic.Empty();
    Empty();
 }
 
-void DPT::Empty( void )
+void VBW::Empty( void )
 {
 //   ASSERT_VALID( this );
 
-   DepthMeters                = 0.0;
-   OffsetFromTransducerMeters = 0.0;
-   RangeMeters                = 0.0;
+   LongitudinalWaterSpeed       = 0.0;
+   TransverseWaterSpeed         = 0.0;
+   LongitudinalGroundSpeed      = 0.0;
+   TransverseGroundSpeed        = 0.0;
 }
 
-bool DPT::Parse( const SENTENCE& sentence )
+bool VBW::Parse( const SENTENCE& sentence )
 {
 //   ASSERT_VALID( this );
 
    /*
-   ** DPT - Heading - Deviation & Variation
+   ** VBW - Dual Water/Ground speed
    **
-   **        1   2   3
-   **        |   |   |
-   ** $--DPT,x.x,x.x*hh<CR><LF>
+   **        1   2   3 4   5   6 7  
+   **        |   |   | |   |   | |  
+   ** $--VBW,x.x,x.x,A,x.x,x.x,A*hh<CR><LF>
    **
    ** Field Number: 
-   **  1) Depth, meters
-   **  2) Offset from transducer, 
-   **     positive means distance from tansducer to water line
-   **     negative means distance from transducer to keel
-   **  3) Checksum
-   */
-   
-   /* added by eddie@robodock.net
-   ** JRC Echo Sounder DPT field
-   **
-   **        1     2   3   4
-   **        |     |   |   |
-   ** $SDDPT,xxx.x,x.x,x.x*hh<CR><LF>
-   **
-   ** Field Number:
-   ** 1) water depth relative to transducer, meters
-   ** 2) offset from transducer, meters
-   ** 3) measuring range, meters
-   ** 4) Checksum
+   **  1) Longitudinal Water Speed, "-"means astern
+   **  2) Transverse Water Speed, "-"means port
+   **  3) Status, A=Data Valid
+   **  4) Longitudinal Ground Speed, "-"means astern
+   **  5) Transverse Ground Speed, "-"means port
+   **  6) Status, A=Data Valid
+   **  7) Checksum
    */
 
    /*
    ** First we check the checksum...
    */
 
-   if ( sentence.IsChecksumBad( 4 ) == TRUE )
+   if ( sentence.IsChecksumBad( 7 ) == TRUE )
    {
       SetErrorMessage( _T("Invalid Checksum") );
       return( FALSE );
    } 
 
-   DepthMeters                = sentence.Double( 1 );
-   OffsetFromTransducerMeters = sentence.Double( 2 );
-   RangeMeters                = sentence.Double( 3 );
+   LongitudinalWaterSpeed  = sentence.Double( 1 );
+   TransverseWaterSpeed    = sentence.Double( 2 );
+   LongitudinalGroundSpeed = sentence.Double( 4 );
+   TransverseGroundSpeed   = sentence.Double( 5 );
 
    return( TRUE );
 }
 
-bool DPT::Write( SENTENCE& sentence )
+bool VBW::Write( SENTENCE& sentence )
 {
 //   ASSERT_VALID( this );
 
@@ -122,22 +114,26 @@ bool DPT::Write( SENTENCE& sentence )
    
    RESPONSE::Write( sentence );
 
-   sentence += DepthMeters;
-   sentence += OffsetFromTransducerMeters;
-   sentence += RangeMeters;
+   sentence += LongitudinalWaterSpeed;
+   sentence += TransverseWaterSpeed;
+   sentence += _T("A");
+   sentence += LongitudinalGroundSpeed;
+   sentence += TransverseGroundSpeed;
+   sentence += _T("A");
 
    sentence.Finish();
 
    return( TRUE );
 }
 
-const DPT& DPT::operator = ( const DPT& source )
+const VBW& VBW::operator = ( const VBW& source )
 {
 //   ASSERT_VALID( this );
 
-   DepthMeters                = source.DepthMeters;
-   OffsetFromTransducerMeters = source.OffsetFromTransducerMeters;
-   RangeMeters                = source.RangeMeters;
+   LongitudinalWaterSpeed  = source.LongitudinalWaterSpeed;
+   TransverseWaterSpeed    = source.TransverseWaterSpeed;
+   LongitudinalGroundSpeed = source.LongitudinalGroundSpeed;
+   TransverseGroundSpeed   = source.TransverseGroundSpeed;
 
    return( *this );
 }

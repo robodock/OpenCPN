@@ -110,8 +110,8 @@ NMEA0183::NMEA0183()
    response_table.Append( (RESPONSE *) &Stn );
    response_table.Append( (RESPONSE *) &Trf );
    response_table.Append( (RESPONSE *) &Ttm );
-   response_table.Append( (RESPONSE *) &Vbw );
 */
+   response_table.Append( (RESPONSE *) &Vbw ); 
    response_table.Append( (RESPONSE *) &Vhw );
    response_table.Append( (RESPONSE *) &Vlw );
    /*
@@ -129,7 +129,8 @@ NMEA0183::NMEA0183()
    response_table.Append( (RESPONSE *) &Wpl );
 
    response_table.Append( (RESPONSE *) &Xdr );
-/*   response_table.Append( (RESPONSE *) &Xte );
+/*   
+   response_table.Append( (RESPONSE *) &Xte );
    response_table.Append( (RESPONSE *) &Xtr );
 */
    response_table.Append( (RESPONSE *) &Zda );
